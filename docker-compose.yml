@@ -1,0 +1,90 @@
+version: '3'
+services:
+
+    # PHP Service
+    backend:
+        build:
+            context: ./docker/backend
+            dockerfile: DockerFile
+        image: digitalocean.com/php
+        container_name: "${PROJECT_NAME}_backend"
+        tty: true
+        environment:
+            SERVICE_NAME: backend
+        working_dir: /var/www/backend
+        volumes:
+            - ./backend/:/var/www/backend
+            - ./docker/backend/supervisor/supervisord.conf:/etc/supervisord.conf
+            - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        networks:
+            - private
+
+    # Frontend Service
+    frontend:
+        build:
+            context: ./docker/frontend
+            dockerfile: DockerFile
+        container_name: "${PROJECT_NAME}_frontend"
+        working_dir: /usr/src/app/frontend
+        volumes: 
+            - ./frontend/:/usr/src/app/frontend 
+        ports: 
+            - '4200:4200' 
+        command: > 
+            bash -c "npm install && ng serve --host 0.0.0.0 --port 4200"
+        networks:
+            - private
+
+    # Nginx Service
+    webserver:
+        image: nginx:alpine
+        container_name: "${PROJECT_NAME}_webserver"
+        tty: true
+        ports:
+            - "8000:80"
+            - "443:443"
+        volumes:
+            - ./backend/:/var/www/backend
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - private
+
+    # MySQL Service
+    mysql:
+        image: mysql:latest
+        container_name: "${PROJECT_NAME}_mysql"
+        tty: true
+        environment:
+            MYSQL_USER: ${USER_MYSQL}
+            MYSQL_PASSWORD: ${PASS_MYSQL}
+            MYSQL_DATABASE: ${MYSQL_DB}
+            MYSQL_ROOT_PASSWORD: ${PASS_ROOT_MYSQL}
+            MYSQL_ROOT_HOST: '%'
+            SERVICE_NAME: mysql
+        volumes:
+            - ./docker/mysql/dbdata/:/var/lib/mysql-files/
+            - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+        networks:
+            - private
+
+    # PHPMYADMIN Service
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: "${PROJECT_NAME}_phpmyadmin"
+        ports:
+            - "7000:80"
+        links:
+            - mysql:mysql
+        environment:
+            MYSQL_USER: ${USER_MYSQL}
+            MYSQL_PASSWORD: ${PASS_MYSQL}
+            MYSQL_ROOT_PASSWORD: ${PASS_ROOT_MYSQL}
+            MYSQL_ROOT_HOST: '%'
+            PMA_HOST: mysql
+        networks:
+            - private
+
+# Docker Networks
+networks:
+    private:
+        driver: bridge
