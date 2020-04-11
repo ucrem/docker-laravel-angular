@@ -62,7 +62,7 @@ services:
             MYSQL_ROOT_HOST: '%'
             SERVICE_NAME: mysql
         volumes:
-            - ./docker/mysql/dbdata/:/var/lib/mysql/
+            - ./docker/mysql/dbdata/:/var/lib/mysql-files/
             - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
         networks:
             - private

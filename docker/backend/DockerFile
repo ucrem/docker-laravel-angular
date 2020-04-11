@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:7.3-fpm
 
 # Set working directory
 WORKDIR /var/www/backend/
@@ -19,9 +19,13 @@ RUN apt-get update && apt-get install -y \
     curl \
     autoconf \
     pkg-config \
-    libssl-dev \
     libzip-dev \
     zlib1g-dev \
+    libssl-dev \
+    libssl-doc \
+    libsasl2-dev \
+    libcurl4-openssl-dev \
+    ca-certificates \
     supervisor
 
 # Clear cache
@@ -53,7 +57,6 @@ RUN chown -R www:www /var/log/supervisor
 
 # Change current user to www
 USER www
-
 
 # expose and run supervisor
 EXPOSE 9000
