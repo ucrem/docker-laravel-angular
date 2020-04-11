@@ -1,57 +1,57 @@
 # Docker
 
-Questo template è stato studiato per soddisfare i seguenti requisiti:
+This template has been designed to meet the following requirements:
 
-Un container backend con immagine ufficiale dockerhub php:7.3-fpm PHP versione 7.3 e Supervisor con comando php artisan queue:work
+A backend container with official dockerhub image php: 7.3-fpm PHP version 7.3 and Supervisor with php command artisan queue: work
 
-Un container frontend con immagine ufficiale dockerhub node:latest e angular CLI
+A frontend container with the official dockerhub node image: latest and angular CLI
 
-Un container mysql con immagine ufficiale dockerhub mysql:latest
+A mysql container with official mysql: latest dockerhub image
 
-Un container phpmyadmin con immagine ufficiale dockerhub phpmyadmin/phpmyadmin, linkato al container mysql per poter accedere al DB 
+A phpmyadmin container with the official dockerhub image phpmyadmin / phpmyadmin, linked to the mysql container in order to access the DB
 
-Un container webserver con immagine ufficiale dockerhub nginx:alpine
+A webserver container with the official image of the dockerhub nginx: alpine
 
 ## Init Docker
 
 
-Il file /docker/backend/supervisor/supervisord.conf è linkato nel container backend. Modificando quel file viene replicato istantaneamente sul container
+The /docker/backend/supervisor/supervisord.conf file is linked in the backend container. Editing that file is instantly replicated to the container
 
-Prima installazione
+First installation
 
-Procedere con la copia del file .env.example per settaggio nome progetto ed utente da creare per DB mysql
-
-`cp .env.example .env`
-
-successivamente
-
-`docker-compose  build`
-
-Attendere che il tutto venga configurato
-
-Successivamente:
-
-`docker-compose  up -d`
-
-Una volta che tutti i container sono inizializzati bisogna collegarsi sul container backend:
-
-`docker exec -t -i backend /bin/bash`
-
-ci ritroveremo già nella cartella /var/www/backend
-
-Procedere con la copia del file .env.example ( è già settato il collegamento al database)
+Proceed with the copy of the .env.example file for setting the project and user name to be created for DB mysql
 
 `cp .env.example .env`
 
-installiamo tutte le dipendeze:
+then:
+
+`docker-compose build`
+
+Wait for everything to be configured
+
+Then:
+
+`docker-compose up -d`
+
+Once all the containers are initialized, you need to connect to the backend container:
+
+`docker exec -t -i backend / bin / bash`
+
+we will find ourselves already in the folder / var / www / backend
+
+Proceed with the copy of the .env.example file ( Change only mysql db name, user and password with the same .env docker istance)
+
+`cp .env.example .env`
+
+we install all the dependencies:
 
 `composer install`
 
-Per il backend non serve eseguire il comando php artisan serve in quanto il container nginx è linkato sulla cartella public
+For the backend it is not necessary to execute the command php artisan because the nginx container is linked on the public laraver folder
 
-Per quanto riguarda il frontend ( Angular ) ho fatto in modo di esporre la 4200, in questo modo modificate il file in locale ma lo linka sulla docker instantaneamente e angular cli fa il resto sulla docker.
+As for the frontend (Angular) I made sure to expose the 4200, in this way you edit the file locally but links it on the docker instantly and angular cli does the rest on the docker.
 
-Quindi di seguito i link attualmente configurati:
+So here are the links currently configured:
 
 backend: `localhost:8000`
 
