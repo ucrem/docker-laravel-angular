@@ -2,7 +2,7 @@
 
 Questo template è stato studiato per soddisfare i seguenti requisiti:
 
-Un container backend con immagine ufficiale dockerhub php:7.4-fpm PHP versione 7.4 e Supervisor con comando php artisan queue:work
+Un container backend con immagine ufficiale dockerhub php:7.3-fpm PHP versione 7.3 e Supervisor con comando php artisan queue:work
 
 Un container frontend con immagine ufficiale dockerhub node:latest e angular CLI
 
@@ -19,13 +19,19 @@ Il file /docker/backend/supervisor/supervisord.conf è linkato nel container bac
 
 Prima installazione
 
-`docker-compose -f docker-compose.yml build`
+Procedere con la copia del file .env.example per settaggio nome progetto ed utente da creare per DB mysql
+
+`cp .env.example .env`
+
+successivamente
+
+`docker-compose  build`
 
 Attendere che il tutto venga configurato
 
 Successivamente:
 
-`docker-compose -f docker-compose.yml up -d`
+`docker-compose  up -d`
 
 Una volta che tutti i container sono inizializzati bisogna collegarsi sul container backend:
 
