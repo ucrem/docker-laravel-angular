@@ -6,7 +6,6 @@ services:
         build:
             context: .
             dockerfile: ./docker/backend/DockerFile
-        image: digitalocean.com/php
         container_name: "${PROJECT_NAME}_backend"
         tty: true
         environment:
