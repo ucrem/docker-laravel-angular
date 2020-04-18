@@ -2,7 +2,7 @@
 
 This template has been designed to meet the following requirements:
 
-A backend container with official dockerhub image php: 7.3-fpm PHP version 7.3 and Supervisor with php command artisan queue: work
+A backend container with official dockerhub image php: 7.4-fpm PHP version 7.4 and Supervisor with php command artisan queue: work
 
 A frontend container with the official dockerhub node image: latest and angular CLI
 
