@@ -4,8 +4,8 @@ services:
     # PHP Service
     backend:
         build:
-            context: ./docker/backend
-            dockerfile: DockerFile
+            context: .
+            dockerfile: ./docker/backend/DockerFile
         image: digitalocean.com/php
         container_name: "${PROJECT_NAME}_backend"
         tty: true
@@ -22,8 +22,8 @@ services:
     # Frontend Service
     frontend:
         build:
-            context: ./docker/frontend
-            dockerfile: DockerFile
+            context: .
+            dockerfile: ./docker/frontend/DockerFile
         container_name: "${PROJECT_NAME}_frontend"
         working_dir: /usr/src/app/frontend
         volumes: 
